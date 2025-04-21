@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message Frame {
+    repeated int32 shape = 1;
+    bytes frame = 2;
+}
+
+service AnalyzerService {
+    rpc Deidentify (Frame) returns (Frame);
+}
+
+// >>> pip3 install grpcio-tools
+// >>> python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. frame.proto
