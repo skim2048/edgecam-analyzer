@@ -51,9 +51,6 @@ class AnalyzerService(frame_pb2_grpc.AnalyzerServiceServicer):
 
 VIDEO_ANALYZER = None
 
-with open("settings.json", 'r') as f:
-    SETTINGS = json.load(f)
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -79,7 +76,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=SETTINGS["allowed_cors"],
+    allow_origins=['*'],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],)
@@ -95,9 +92,8 @@ app.add_middleware(
 
 if __name__ == '__main__':
     import uvicorn
-
     uvicorn.run(
-        app=SETTINGS["app"],
-        host=SETTINGS["host"],
-        port=SETTINGS["port"]
+        app="main:app",
+        host="0.0.0.0",
+        port=12931
     )
